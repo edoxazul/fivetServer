@@ -62,179 +62,202 @@ module model {
     /**
      * The Sexo
      */
-     enum Sexo {
-             MACHO,
-             HEMBRA
-     }
+    enum Sexo {
+        MACHO,
+        HEMBRA
+    }
 
     /**
-     * The Tipo de Paciente
-     */
-     enum TipoPaciente {
-             INTERNO,
-             EXTERNO
-     }
+    * The Tipo de Paciente
+    */
+    enum TipoPaciente {
+        INTERNO,
+        EXTERNO
+    }
 
     /**
-     * The Ficha
-     */
-     class Ficha{
+    * The Ficha
+    */
+    class Ficha{
         /**
-         * PK
-         */
-         int id;
-
-        /**
-         * Numero: 1553
-         */
-         int numero;
+        * PK
+        */
+        int id;
 
         /**
-         * Nombre : Calvin
-         */
-         string nombre;
+        * Numero: 1553
+        */
+        int numero;
 
         /**
-         * Foto : url
-         */
-         string foto;
+        * Nombre : Calvin
+        */
+        string nombre;
 
         /**
-         * Especie : Canino
-         */
-         string especie;
+        * Foto : url
+        */
+        string foto;
 
         /**
-         * Fecha de nacimiento
-         * Format: ISO_ZONED_DATE_TIME
-         */
-         string fechaNacimiento;
+        * Especie : Canino
+        */
+        string especie;
 
         /**
-         * Raza : rottweiler
-         */
-         string raza;
+        * Fecha de nacimiento
+        * Format: ISO_ZONED_DATE_TIME
+        */
+        string fechaNacimiento;
 
         /**
-         * Sexo : macho / hembra
-         */
-         Sexo sexo;
+        * Raza : rottweiler
+        */
+        string raza;
 
         /**
-         * Color :rojo cobrizo
-         */
-         string color;
+        * Sexo : macho / hembra
+        */
+        Sexo sexo;
 
         /**
-         * Tipo : interno
-         */
-         TipoPaciente tipoPaciente;
-
-     }
-
-
-
-
-     /**
-      * The control
-      */
-     class Control {
+        * Color :rojo cobrizo
+        */
+        string color;
 
         /**
-         * PK
-         */
-         int id;
+        * Tipo : interno
+        */
+        TipoPaciente tipoPaciente;
 
-        /**
-         * Fecha del control
-         * Format: ISO_ZONED_DATE_TIME
-         */
-         string fechaControl;
-
-        /**
-         * Fecha Proximo Control , si aplica
-         * Format: ISO_ZONED_DATE_TIME
-         */
-         string fechaProximoControl;
-
-        /**
-         * Temperatura en C°
-         */
-         double temperatura;
-
-        /**
-         * Peso en kg
-         */
-         double peso;
-
-        /**
-         * Altura en cm
-         */
-         double altura;
-
-        /**
-         * Diagnostico
-         */
-         string diagnostico;
-
-        /**
-         * Veterinario , nombre del veterinario que realizó el control
-         */
-         string nombreVeterinario;
-     }
+    }
 
     /**
-     * The Examen
-     */
-     class Examen{
+    * The control
+    */
+    class Control {
 
         /**
-         * PK
-         */
-         int id;
+        * PK
+        */
+        int id;
 
         /**
-         * Nombre del examen: Radiología
-         */
-         string nombreExamen;
+        * Fecha del control
+        * Format: ISO_ZONED_DATE_TIME
+        */
+        string fechaControl;
 
         /**
-         * Fecha en que fue tomado el examen : 15/07/2019
-         * Format: ISO_ZONED_DATE_TIME
-         */
-         string fechaExamen;
-     }
+        * Fecha Proximo Control , si aplica
+        * Format: ISO_ZONED_DATE_TIME
+        */
+        string fechaProximoControl;
 
-     /**
-     * The Contratos
-     */
-     interface Contratos {
         /**
-         * Dado un numero de ficha, retorna la ficha asociada
-         * @param numero de la ficha a obtener.
-         * @return the Ficha.
-         */
+        * Temperatura en C°
+        */
+        double temperatura;
+
+        /**
+        * Peso en kg
+        */
+        double peso;
+
+        /**
+        * Altura en cm
+        */
+        double altura;
+
+        /**
+        * Diagnostico
+        */
+        string diagnostico;
+
+        /**
+        * Veterinario , nombre del veterinario que realizó el control
+        */
+        string nombreVeterinario;
+    }
+
+    /**
+    * The Examen
+    */
+    class Examen{
+
+        /**
+        * PK
+        */
+        int id;
+
+        /**
+        * Nombre del examen: Radiología
+        */
+        string nombreExamen;
+
+        /**
+        * Fecha en que fue tomado el examen : 15/07/2019
+        * Format: ISO_ZONED_DATE_TIME
+        */
+        string fechaExamen;
+    }
+
+    /**
+    * The Contratos.
+    */
+    interface Contratos {
+
+        /**
+        * Deseo registrar los datos de un paciente.
+        *
+        * @param ficha a crear en el backend.
+        * @return the ficha almacenada en el backend (con numero asignado).
+        */
+        Ficha crearFicha(Ficha ficha);
+
+        /**
+        * Deseo registrar los datos del duenio de un paciente.
+        *
+        * @param persona a crear en el backend.
+        * @return the Persona almacenada en el backend.
+        */
+        Persona crearPersona(Persona persona);
+
+        /**
+        * Deseo registrar los datos de un Control.
+        *
+        * @param numeroFicha al cual sera asignado el control.
+        * @param control a agregar.
+        */
+        Control crearControl(int numeroFicha, Control control);
+
+        /**
+        * Dado un numero de ficha, retorna la ficha asociada.
+        *
+        * @param numero de la ficha a obtener.
+        * @return the Ficha.
+        */
         Ficha obtenerFicha(int numero);
-        Ficha registrarFicha(Ficha ficha);
-        Control ingresarControl(Control control);
-        Persona ingresarPersona(Persona persona);
-        Ficha agregarFoto(string foto);
-
-        //TODO: escribir toda las operaciones del sistema
-     }
-
-    /**
-     * The base system.
-     */
-     interface TheSystem {
 
         /**
-         * @return the diference in time between client and server.
-         */
+        * Dado un numero de rut obtiene la persona.
+        *
+        * @param rut de la persona a buscar.
+        * @return the Persona.
+        */
+        Persona obtenerPersona(string rut);
+
+    }
+
+    /**
+    * The base system.
+    */
+    interface TheSystem {
+
+        /**
+        * @return the diference in time between client and server.
+        */
         long getDelay(long clientTime);
-
-
-
-     }
+    }
 
 }
