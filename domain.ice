@@ -19,45 +19,51 @@
 module model {
 
     /**
-     *
-     * Clase Persona
-     */
-     class Persona{
+    *
+    * Clase Persona
+    */
+    ["cs:property"]
+    class Persona{
         /**
         * PK
         */
-         int id;
+        int uid;
 
         /**
-         * Rut: 55659656
-         */
-         string rut;
+        * Rut: 55659656
+        */
+        string rut;
 
         /**
-         *  Nombre
-         */
-         string nombre;
+        *  Nombre
+        */
+        string nombre;
 
         /**
-         *  Direccion
-         */
-         string direccion;
+        *
+        */
+        string apellido;
 
         /**
-         * Telefono Fijo: +56 55 2355000
-         */
+        *  Direccion
+        */
+        string direccion;
+
+        /**
+        * Telefono Fijo: +56 55 2355000
+        */
         long telefonoFijo;
 
         /**
-         * Telefono Movil:
-         */
-         long telefonoMovil;
+        * Telefono Movil:
+        */
+        long telefonoMovil;
 
        /**
         * Correo electronico
         */
         string email;
-     }
+    }
 
     /**
      * The Sexo
@@ -78,11 +84,12 @@ module model {
     /**
     * The Ficha
     */
+    ["cs:property"]
     class Ficha{
         /**
         * PK
         */
-        int id;
+        int uid;
 
         /**
         * Numero: 1553
@@ -135,12 +142,18 @@ module model {
     /**
     * The control
     */
+    ["cs:property"]
     class Control {
 
         /**
         * PK
         */
-        int id;
+        int uid;
+
+        // /**
+        // * Numero de Ficha
+        // */
+        // int numeroFicha;
 
         /**
         * Fecha del control
@@ -183,12 +196,13 @@ module model {
     /**
     * The Examen
     */
+    ["cs:property"]
     class Examen{
 
         /**
         * PK
         */
-        int id;
+        int uid;
 
         /**
         * Nombre del examen: Radiología
@@ -205,6 +219,7 @@ module model {
     /**
     * The Contratos.
     */
+
     interface Contratos {
 
         /**

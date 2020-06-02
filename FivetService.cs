@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Fivet.Server
 {
-    internal class FivetService : IHostedService
+    internal class FivetService : IHostedService, IDisposable
     {
 
         ///<summary>
@@ -26,27 +26,24 @@ namespace Fivet.Server
         ///</summary>
         private readonly Communicator _communicator;
 
+        private readonly TheSystemDisp_ _theSystem;
+
+        private readonly ContratosDisp_ _contratos;
+
+
         ///<summary>
         /// The FivetService.
         ///</summary>
-        public FivetService(ILogger<FivetService> logger)
+        public FivetService(ILogger<FivetService> logger, TheSystemDisp_ theSystem, ContratosDisp_ contratos)
         {
             _logger = logger;
+            _logger.LogDebug("Building FivetService ...");
+            _theSystem = theSystem;
+            _contratos = contratos;
             _communicator = buildCommunicator();
         }
 
-        private Communicator buildCommunicator()
-        {
-            _logger.LogDebug("Initializing Communicator v{0} ({1}) ..", Ice.Util.stringVersion(), Ice.Util.intVersion());
 
-            Properties properties = Util.createProperties();
-
-            InitializationData initializationData = new InitializationData();
-            initializationData.properties = properties;
-            return Ice.Util.initialize(initializationData);
-
-        }
-        
         ///<summary>
         /// Triggered when the application host is ready to start the service
         ///</summary>
@@ -56,14 +53,13 @@ namespace Fivet.Server
 
             var adapter = _communicator.createObjectAdapterWithEndpoints("TheAdapter", "tcp -z -t 15000 -p " + _port);
 
-            // The interface
-            TheSystem theSystem = new TheSystemImpl();
-
             // Register in the communicator
-            adapter.add(theSystem, Util.stringToIdentity("TheSystem"));
+            adapter.add(_theSystem, Util.stringToIdentity("TheSystem"));
 
             // Activation
             adapter.activate();
+
+            _theSystem.getDelay(0);
 
             //All ok
             return Task.CompletedTask;
@@ -83,16 +79,27 @@ namespace Fivet.Server
             return Task.CompletedTask;
 
         }
+
+        private Communicator buildCommunicator()
+        {
+            _logger.LogDebug("Initializing Communicator v{0} ({1}) ..", Ice.Util.stringVersion(), Ice.Util.intVersion());
+
+            Properties properties = Util.createProperties();
+
+            InitializationData initializationData = new InitializationData();
+            initializationData.properties = properties;
+           
+            return Ice.Util.initialize(initializationData);
+
+        }
+
+        public void Dispose()
+        {
+            _communicator.destroy();
+        }
+
+
+
     }
 
-    ///<summary>
-    /// The implementation of TheSystem interface
-    ///</summary>
-    public class TheSystemImpl : TheSystemDisp_
-    {
-        public override long getDelay(long clientTime, Current current = null)
-        {
-            return DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - clientTime;
-        }
-    }
 }
